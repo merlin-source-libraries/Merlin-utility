@@ -31,6 +31,6 @@ namespace merl
     }
     std::string timestamp_now_str(const char * format)
     {
-        return (std::stringstream() << timestamp_now(format)).str();
+        return static_cast<std::stringstream&&>(std::stringstream() << timestamp_now(format)).str();
     }
 }

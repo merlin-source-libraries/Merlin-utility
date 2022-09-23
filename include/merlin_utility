@@ -1,0 +1,7 @@
+#ifndef MERLIN_UTILITY
+#define MERLIN_UTILITY
+
+#include <merlin_utility.hpp>
+
+#endif
+

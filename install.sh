@@ -13,13 +13,14 @@ if [ $# == 1 ]; then
 		mkdir lib
 	fi
 
-	if [ -d "${repository}/include" ] && [ -f "${repository}/include/merlin_utility.hpp" ]; then
-		cp "${repository}/include/merlin_utility.hpp" ./include/
+	if [ -d "${repository}/include" ] && [ -f "${repository}/include/merlin_utility" ]; then
+		cp "${repository}/include/merlin_"*.hpp ./include/
+		cp "${repository}/include/merlin_utility" ./include/
 	else
 		echo "[Error] Sources not found - The installation script must be called from the repository (cd to Merlin-utility/)."
 	fi
-	if [ -d "${repository}/src" ] && [ -f "${repository}/src/merlin_utility.cpp" ]; then
-		g++ -shared -fPIC -Wall -Wextra -pedantic -std=c++17 -O2 "${repository}/src/merlin_utility.cpp" -I./include/ -o libmerlin_utility.so
+	if [ -d "${repository}/src" ]; then
+		g++ -shared -fPIC -Wall -Wextra -pedantic -std=c++17 -O2 "${repository}/src/merlin_"*.cpp -I./include/ -o libmerlin_utility.so
 		mv libmerlin_utility.so ./lib/
 	else
 		echo "[Error] Sources not found - The installation script must be called from the repository (cd to Merlin-utility/)."

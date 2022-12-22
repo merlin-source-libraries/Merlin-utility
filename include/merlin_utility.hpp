@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 #include <iomanip>
+#include <chrono>
 
 namespace merl
 {
@@ -49,6 +50,18 @@ namespace merl
 
     auto timestamp_now(const char * format) -> decltype(std::put_time(std::declval<const std::tm *>(), std::declval<const char *>()));
     std::string timestamp_now_str(const char * format);
+
+    template <typename Tref = std::chrono::milliseconds, typename F, typename ... Args>
+    typename Tref::rep profile(F && f, Args && ... args)
+    {
+        static_assert(std::is_invocable<F, Args...>::value, "F type must be callable with the arguments types Args... such that f(args...) would be well-formed");
+
+        auto start = std::chrono::steady_clock::now();
+        f(std::forward<Args...>(args)...);
+        auto end = std::chrono::steady_clock::now();
+
+        return std::chrono::duration_cast<Tref>(end - start).count();
+    }
 }
 
 #endif

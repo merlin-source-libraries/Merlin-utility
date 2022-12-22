@@ -10,18 +10,9 @@ namespace merl
     {
         return std::isspace(static_cast<unsigned char>(c));
     }
-    std::string trim(std::string_view sv)
+    bool is_space(wchar_t wc)
     {
-        unsigned long long b_pos = 0;
-        long long e_pos = sv.size()-1;
-
-        while(b_pos < sv.size() && is_space(sv[b_pos]))
-            ++b_pos;
-
-        while(e_pos >= 0 && is_space(sv[e_pos]))
-            --e_pos;
-
-        return std::string(sv.substr(b_pos, e_pos-b_pos+1));
+        return std::iswspace(static_cast<wint_t>(wc));
     }
 
     auto timestamp_now(const char * format) -> decltype(std::put_time(std::declval<const std::tm *>(), std::declval<const char *>()))

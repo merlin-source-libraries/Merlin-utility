@@ -12,7 +12,25 @@ namespace merl
     bool is_space(wchar_t wc);
     
     template <typename CharT>
-    std::basic_string<CharT> trim(std::basic_string_view<CharT> sv)
+    void trim(std::basic_string<CharT> & s, bool shrink_to_fit = false)
+    {
+        unsigned long long b_pos = 0;
+        long long e_pos = s.size()-1;
+
+        while(b_pos < s.size() && is_space(s[b_pos]))
+            ++b_pos;
+
+        while(e_pos >= 0 && is_space(s[e_pos]))
+            --e_pos;
+
+        s.erase(e_pos+1, s.size()-(e_pos+1));
+        s.erase(0, b_pos);
+
+        if(shrink_to_fit) s.shrink_to_fit();
+    }
+    
+    template <typename CharT>
+    std::basic_string<CharT> trimmed(std::basic_string_view<CharT> sv)
     {
         unsigned long long b_pos = 0;
         long long e_pos = sv.size()-1;
